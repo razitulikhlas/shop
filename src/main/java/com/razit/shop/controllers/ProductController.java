@@ -1,6 +1,7 @@
 package com.razit.shop.controllers;
 
 import com.razit.shop.dto.ResponseData;
+import com.razit.shop.dto.SearchData;
 import com.razit.shop.models.entity.Product;
 import com.razit.shop.models.entity.Supplier;
 import com.razit.shop.services.ProductServices;
@@ -12,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/products")
@@ -52,7 +54,26 @@ public class ProductController {
     @PostMapping("/{id}")
     public void addSuppliers(@RequestBody Supplier supplier,@PathVariable("id") Long productId){
         productServices.addSupplier(supplier,productId);
+    }
 
+    @PostMapping("search/name")
+    public List<Product> findByName(@RequestBody SearchData searchData){
+        return productServices.findProductByName(searchData.getSearchKey());
+    }
+
+    @PostMapping("search/nameLike")
+    public List<Product> findNameLike(@RequestBody SearchData searchData){
+        return productServices.findProductLikeName(searchData.getSearchKey());
+    }
+
+    @GetMapping("search/category/{id}")
+    public List<Product> findProductByCategory(@PathVariable("id") Long id){
+        return productServices.findByCategoryId(id);
+    }
+
+    @GetMapping("search/suppliers/{id}")
+    public List<Product> findProductBySupplierId(@PathVariable("id") Long id){
+        return productServices.findBySupplier(id);
     }
 
 }

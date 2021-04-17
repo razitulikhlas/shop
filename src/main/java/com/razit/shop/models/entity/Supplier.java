@@ -11,10 +11,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tbl_supplier")
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id"
+//)
 public class Supplier implements Serializable {
 
     @Id
@@ -34,7 +34,7 @@ public class Supplier implements Serializable {
     private String phone;
 
     @ManyToMany(mappedBy = "suppliers")
-//    @JsonBackReference
+    @JsonBackReference
     private Set<Product> products;
 
     public Supplier(Long id, String name, String email, String address, String phone) {
