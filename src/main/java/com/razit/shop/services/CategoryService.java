@@ -3,6 +3,7 @@ package com.razit.shop.services;
 import com.razit.shop.models.entity.Category;
 import com.razit.shop.models.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.TransactionScoped;
@@ -35,5 +36,12 @@ public class CategoryService {
         categoryRepository.deleteById(id);
     }
 
+    public Iterable<Category> findByName(String name, Pageable pageable){
+        return categoryRepository.findByNameContains(name,pageable);
+    }
+
+    public Iterable<Category> saveBatch(Iterable<Category> categories){
+        return categoryRepository.saveAll(categories);
+    }
 
 }

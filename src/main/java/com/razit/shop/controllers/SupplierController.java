@@ -1,6 +1,7 @@
 package com.razit.shop.controllers;
 
 import com.razit.shop.dto.ResponseData;
+import com.razit.shop.dto.SearchData;
 import com.razit.shop.dto.SupplierData;
 import com.razit.shop.models.entity.Supplier;
 import com.razit.shop.services.SupplierService;
@@ -13,6 +14,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/suppliers")
@@ -62,6 +64,11 @@ public class SupplierController {
         return ResponseEntity.status(HttpStatus.OK).body(responseData);
     }
 
+    @PostMapping("search/email")
+    public Supplier findByEmail(@RequestBody SearchData searchData){
+        return  supplierService.findByEmail(searchData.getSearchKey());
+    }
+
     @GetMapping
     public Iterable<Supplier> findAll(){
         return supplierService.findAll();
@@ -70,5 +77,20 @@ public class SupplierController {
     @GetMapping("/{id}")
     public Supplier findById(@PathVariable("id") Long id ){
         return supplierService.findById(id);
+    }
+
+    @PostMapping("search/nameLike")
+    public List<Supplier> findNameLike(@RequestBody SearchData searchData){
+        return supplierService.findByNameLike(searchData.getSearchKey());
+    }
+
+    @PostMapping("search/name/start")
+    public List<Supplier> searchFirstName(@RequestBody SearchData searchData){
+        return supplierService.searchStartName(searchData.getSearchKey());
+    }
+
+    @PostMapping("search/emailorname")
+    public List<Supplier> searchEmailOrName(@RequestBody SearchData searchData){
+        return supplierService.searchNameOrEmail(searchData.getSearchKey(),searchData.getSearchOther());
     }
 }
